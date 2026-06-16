@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="FinanceManagerApp/FinanceManagerApp.csproj" Id="2f6ef2be-cef1-4777-823b-3e286bc6b088" />
-  <Project Path="FinanceManagerInstaller/FinanceManagerInstaller.vdproj" Type="Installer" />
+  <Project Path="FinanceManagerInstaller/FinanceManagerInstaller.vdproj" Type="Installer">
+    <Build />
+  </Project>
 </Solution>
