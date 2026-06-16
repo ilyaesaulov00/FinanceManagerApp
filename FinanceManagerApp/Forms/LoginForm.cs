@@ -51,7 +51,6 @@ namespace FinanceManagerApp.Forms
                 var newUser = new User { FullName = input.Trim(), Type = "Individual" };
                 int userId = _userRepo.Create(newUser);
 
-                // Добавляем стандартные категории для нового пользователя
                 var defaultCategories = new List<Category>
                 {
                     new Category { Name = "Зарплата", Type = "Income" },

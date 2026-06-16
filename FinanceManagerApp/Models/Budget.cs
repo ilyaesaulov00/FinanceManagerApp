@@ -15,7 +15,6 @@ namespace FinanceManagerApp.Models
         public int Month { get; set; }
         public decimal PlannedAmount { get; set; }
 
-        // Для отображения
         public string CategoryName { get; set; }
     }
 }

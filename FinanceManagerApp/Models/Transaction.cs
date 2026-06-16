@@ -15,7 +15,6 @@ namespace FinanceManagerApp.Models
         public DateTime Date { get; set; }
         public string Note { get; set; }
 
-        // Для удобного отображения в таблице можно добавить свойства
         public string CategoryName { get; set; }
         public string CategoryType { get; set; }
     }

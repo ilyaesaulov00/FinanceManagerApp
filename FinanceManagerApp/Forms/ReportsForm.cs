@@ -7,7 +7,7 @@ using FinanceManagerApp.Services;
 using System.Windows.Forms.DataVisualization.Charting;
 using ClosedXML.Excel;
 using System.Collections.Generic;
-using FinanceManagerApp.Models;   // <-- добавьте эту директиву
+using FinanceManagerApp.Models;
 
 namespace FinanceManagerApp.Forms
 {
@@ -16,7 +16,6 @@ namespace FinanceManagerApp.Forms
         private readonly int _userId;
         private readonly FinanceService _financeService = new FinanceService();
 
-        // Поля для хранения вычисленных данных (чтобы не пересчитывать при экспорте)
         private decimal _balance, _income, _expense;
         private DateTime _from, _to;
         private Dictionary<string, decimal> _expenseStructure;
@@ -35,7 +34,6 @@ namespace FinanceManagerApp.Forms
             _from = dtpFrom.Value.Date;
             _to = dtpTo.Value.Date.AddDays(1).AddSeconds(-1);
 
-            // 1. Общая статистика
             _balance = _financeService.GetBalance(_userId, _to);
             var allTransactions = new TransactionRepository().GetFiltered(_userId, _from, _to);
             _income = allTransactions.Where(t => t.CategoryType == "Income").Sum(t => t.Amount);
@@ -45,7 +43,6 @@ namespace FinanceManagerApp.Forms
             lblIncome.Text = $"Доходы: {_income:C2}";
             lblExpense.Text = $"Расходы: {_expense:C2}";
 
-            // 2. Структура расходов (круговая диаграмма)
             _expenseStructure = _financeService.GetExpenseStructure(_userId, _from, _to);
             chartStructure.Series.Clear();
             var pieSeries = new Series("Расходы")
@@ -57,7 +54,6 @@ namespace FinanceManagerApp.Forms
                 pieSeries.Points.AddXY(kvp.Key, (double)kvp.Value);
             chartStructure.Series.Add(pieSeries);
 
-            // 3. Сравнение с бюджетом
             BuildPlanFactChart(_from);
         }
 
@@ -99,10 +95,8 @@ namespace FinanceManagerApp.Forms
             chartPlanFact.Series.Add(seriesFact);
         }
 
-        // ========== НОВЫЙ МЕТОД ЭКСПОРТА ==========
         private void btnExportExcel_Click(object sender, EventArgs e)
         {
-            // Проверяем, что отчёт был сформирован (есть данные)
             if (_expenseStructure == null)
             {
                 MessageBox.Show("Сначала сформируйте отчёт, нажав «Сформировать».",
@@ -120,7 +114,6 @@ namespace FinanceManagerApp.Forms
                 {
                     using (var workbook = new XLWorkbook())
                     {
-                        // --- Лист 1: Общая статистика ---
                         var wsSummary = workbook.Worksheets.Add("Статистика");
                         wsSummary.Cell(1, 1).Value = "Показатель";
                         wsSummary.Cell(1, 2).Value = "Значение";
@@ -135,12 +128,10 @@ namespace FinanceManagerApp.Forms
                         wsSummary.Cell(6, 1).Value = "Расходы";
                         wsSummary.Cell(6, 2).Value = _expense;
 
-                        // Форматирование
                         var range = wsSummary.Range("A1:B6");
                         range.Style.Font.SetBold(true);
                         wsSummary.Columns().AdjustToContents();
 
-                        // --- Лист 2: Структура расходов ---
                         if (_expenseStructure.Any())
                         {
                             var wsExp = workbook.Worksheets.Add("Расходы по категориям");
@@ -156,7 +147,6 @@ namespace FinanceManagerApp.Forms
                             wsExp.Columns().AdjustToContents();
                         }
 
-                        // --- Лист 3: Бюджет (план/факт) ---
                         if (_budgetStatus != null && _budgetStatus.Any())
                         {
                             var wsBud = workbook.Worksheets.Add("Бюджет (план-факт)");

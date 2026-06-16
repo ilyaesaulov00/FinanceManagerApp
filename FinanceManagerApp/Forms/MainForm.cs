@@ -37,7 +37,6 @@ namespace FinanceManagerApp.Forms
             lblIncome.Text = income.ToString("C2");
             lblExpense.Text = expense.ToString("C2");
 
-            // Обновление круговой диаграммы расходов за текущий месяц
             var from = new DateTime(now.Year, now.Month, 1);
             var to = now;
             var expenses = _financeService.GetExpenseStructure(_currentUser.Id, from, to);

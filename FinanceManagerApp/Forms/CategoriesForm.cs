@@ -59,7 +59,7 @@ namespace FinanceManagerApp.Forms
                     _categoryRepo.Delete(category.Id);
                     LoadData();
                 }
-                catch (System.Data.SqlClient.SqlException ex) when (ex.Number == 547) // FK constraint
+                catch (System.Data.SqlClient.SqlException ex) when (ex.Number == 547)
                 {
                     MessageBox.Show("Нельзя удалить категорию, на которую есть ссылки в операциях или бюджете.",
                         "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);

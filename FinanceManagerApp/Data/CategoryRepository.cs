@@ -23,7 +23,7 @@ namespace FinanceManagerApp.Data
                             Id = reader.GetInt32(0),
                             Name = reader.GetString(1),
                             Type = reader.GetString(2),
-                            UserId = reader.GetInt32(3) // Новое поле
+                            UserId = reader.GetInt32(3)
                         });
                 }
             }

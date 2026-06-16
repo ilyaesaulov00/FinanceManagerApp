@@ -12,6 +12,6 @@ namespace FinanceManagerApp.Models
         public string FullName { get; set; }
         public string Type { get; set; }
 
-        public override string ToString() => FullName; // для ComboBox
+        public override string ToString() => FullName;
     }
 }

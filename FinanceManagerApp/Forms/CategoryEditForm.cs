@@ -1,5 +1,4 @@
-﻿// Forms/CategoryEditForm.cs
-using System;
+﻿using System;
 using System.Windows.Forms;
 using FinanceManagerApp.Data;
 using FinanceManagerApp.Models;

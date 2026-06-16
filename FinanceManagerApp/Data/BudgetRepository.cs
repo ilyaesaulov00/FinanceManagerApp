@@ -60,7 +60,6 @@ namespace FinanceManagerApp.Data
 
         public void SaveOrUpdate(Budget budget)
         {
-            // Если плановая сумма равна нулю – удаляем запись бюджета (если она была) и выходим
             if (budget.PlannedAmount == 0)
             {
                 DeleteByUserCategoryPeriod(budget.UserId, budget.CategoryId, budget.Year, budget.Month);
